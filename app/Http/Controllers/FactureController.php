@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Detailfacture;
-use App\Models\Ecriture;
 use App\Models\Facture;
-use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use League\CommonMark\Reference\Reference;
 
 class FactureController extends Controller
 {
@@ -20,7 +16,6 @@ class FactureController extends Controller
     }
     public function validation(Request $request){
         $avance = $request->input('avance');
-        $intitule = $request->input('intitule');
         if(empty($avance)){
             $avance = 0;
         }
@@ -49,7 +44,6 @@ class FactureController extends Controller
             'tva' => $tva_20,
             'ttc' => $ttc,
             'avance' => $avance,
-            'intitule'=>$intitule,
             'montant_a_payer' => $montant_a_payer
         ]);
     }
@@ -61,7 +55,6 @@ class FactureController extends Controller
         $tva = $request->input('tva');
         $ttc = $request->input('ttc');
         $avance = $request->input('avance');
-        $intitule = $request->input('intitule');
         $montant_a_payer = $request->input('montant_a_payer');
         //insert facture
         $facture = new Facture();
@@ -93,49 +86,11 @@ class FactureController extends Controller
             );
             $detail->insert($data);
         }
-        //compte
-        $client = new Client();
-        //vente
-        $vente = new Ecriture();
-        $vente->reference=$client->getNom($idclient);
-        $vente->compte=70000;
-        $vente->tiers="FRNS";
-        $vente->intitule="Vente";
-        $vente->libelle=$intitule;
-        $vente->debit=0;
-        $vente->credit=$hors_taxe;
-        $vente->save();
-        //tva
-        $tva_compte = new Ecriture();
-        $tva_compte->reference=$client->getNom($idclient);
-        $tva_compte->compte=44570;
-        $tva_compte->tiers="";
-        $tva_compte->intitule="TVA";
-        $tva_compte->libelle=$intitule;
-        $tva_compte->debit=0;
-        $tva_compte->credit=$tva;
-        $tva_compte->save();
-        //client
-        $client_compte = new Ecriture();
-        $client_compte->reference=$client->getNom($idclient);
-        $client_compte->compte=41100;
-        $client_compte->tiers="CLTS";
-        $client_compte->intitule="Clients";
-        $client_compte->libelle=$intitule;
-        $client_compte->debit=$ttc;
-        $client_compte->credit=0;
-        $client_compte->save();
-        //
         return redirect()->route('listfacture');
     }
     public function listfacture(){
-        $facture = Facture::all();
-        foreach($facture as $row){
-            $client = new Client();
-            $row['idclient'] = $client->getNom($row['idclient']);
-        }
         return view('facture.list',[
-            'facture' => $facture
+            'facture' => Facture::all()
         ]);
     }
     public function detail($idfacture){
@@ -159,5 +114,13 @@ class FactureController extends Controller
         //     // Effectuez les actions appropriées
         //     return 'tsisy';
         // }
+    }
+
+    public function grand_livre(){
+        return view('facture.grand_livre');
+    }
+
+    public function etat_financiere(){
+        return view('facture.etat_financiere');
     }
 }

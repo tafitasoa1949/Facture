@@ -12,4 +12,5 @@ class Detailfacture extends Model
     public function insert($data){
         DB::table('detailfactures')->insert($data);
     }
+
 }

@@ -12,11 +12,5 @@ class Client extends Model
     public function insert($data){
         DB::table('clients')->insert($data);
     }
-    public function getNom($idclient){
-        $result = DB::table('clients')
-            ->where('id', $idclient)
-            ->pluck('nom')
-            ->first();
-        return $result;
-    }
+    
 }

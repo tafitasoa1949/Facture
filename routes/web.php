@@ -1,11 +1,8 @@
 <?php
 
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\EcritureController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\Home;
-use App\Http\Controllers\PlanController;
-use App\Models\Plan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +24,8 @@ Route::get('/validation',[FactureController::class,'validation']);
 Route::post('/accepter', [FactureController::class, 'processForm'])->name('accepter');
 Route::get('/listfacture',[FactureController::class,'listfacture'])->name('listfacture');
 Route::get('detail/{idfacture}',[FactureController::class,'detail'])->name('detail');
-Route::get('/recherche',[FactureController::class,'recherche'])->name('recherche');
-Route::get('/compte',[PlanController::class,'voir_compte'])->name('compte');
-Route::get('/ajoutcompte',[PlanController::class,'ajouter']);
-Route::get('detailGrandLivre/{numero}',[EcritureController::class,'checkEcriture']);
+Route::get('/recherche',[FactureController::class,'search'])->name('search');
+Route::get('/grandlivre',[FactureController::class,'grand_livre'])->name('grand_livre');
+Route::get('/etatfinanciere',[FactureController::class,'etat_financiere'])->name('etat_financiere');
+
+

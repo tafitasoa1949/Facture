@@ -1,6 +1,6 @@
 
 <div class="container-fluid bg-dark text-secondary text-center border-top py-4 px-5" style="border-color: rgba(256, 256, 256, .1) !important;">
-    <p class="m-0">Fleuris/Tafitasoa/Rova</a></p>
+    <p class="m-0">Flerys/Tafitasoa/Rova</a></p>
 </div>
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
